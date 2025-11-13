@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  tailscale:
+    image: tailscale/tailscale:stable
+    container_name: tailscaled
+    privileged: true
+      volumes:
+      - /dev/net/tun:/dev/net/tun
+      - tailscale-data:/var/lib/tailscale
+    network_mode: "host"
+    environment:
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_AUTHKEY=tskey-auth-kintbtmjsn11CNTRL-1qSvkjchWk19tcbifx5yj1mbc6H1W3tUK
+      - TS_EXTRA_ARGS=--advertise-exit-node
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+
+volumes:
+  tailscale-data:
